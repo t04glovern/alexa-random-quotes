@@ -25,13 +25,14 @@ const GetRandomQuoteHandler = {
     const randomQuote = requestAttributes.t("QUOTES");
     // concatenates a standard message with the random quote
     const speakOutput =
-      requestAttributes.t(
-        "GET_QUOTE_MESSAGE".replace("{0}", randomQuote.author)
-      ) + randomQuote.quote;
+      requestAttributes.t("GET_QUOTE_MESSAGE") +
+      randomQuote.author +
+      ": " +
+      randomQuote.quote;
 
     return handlerInput.responseBuilder
       .speak(speakOutput)
-      .withSimpleCard(requestAttributes.t("SKILL_NAME"), randomQuote)
+      .withSimpleCard(requestAttributes.t("SKILL_NAME"), randomQuote.quote)
       .getResponse();
   }
 };
@@ -164,7 +165,7 @@ exports.handler = skillBuilder
 const enData = {
   translation: {
     SKILL_NAME: "Random Quotes",
-    GET_QUOTE_MESSAGE: "Here's your random quote by {0}:",
+    GET_QUOTE_MESSAGE: "Here's your random quote by ",
     HELP_MESSAGE: "You can say give me a quote, or, you can say exit...",
     HELP_REPROMPT: "What can I help you with?",
     FALLBACK_MESSAGE: "The Random Quotes skill can't help with that. Try again",
@@ -647,7 +648,14 @@ const enData = {
   }
 };
 
+const enusData = {
+  translation: {
+    SKILL_NAME: "Random Quotes"
+  }
+};
+
 // constructs i18n and l10n data structure
 const languageStrings = {
+  "en-US": enusData,
   en: enData
 };
